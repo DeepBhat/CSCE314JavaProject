@@ -39,7 +39,7 @@ public class Primes {
 		}
 		
 		public String toString() {
-			return ("" + first + ", " + second);
+			return (first + ", " + second);
 		}
 		
 	}
@@ -86,16 +86,15 @@ public class Primes {
 	// Generate and store a list of primes.
 	public void generatePrimes(int count)
 	{
-		int candidatePrime = 2;
 		addPrime(new BigInteger("2"));
-		candidatePrime = 3;
+		BigInteger candidatePrime = new BigInteger("3");
 		
 		while (count > 1) {
-			if (isPrime(BigInteger.valueOf(candidatePrime))) {
-				addPrime(BigInteger.valueOf(candidatePrime));
+			if (isPrime(candidatePrime)) {
+				addPrime(candidatePrime);
 				count --;
 			}
-			candidatePrime += 2;
+			candidatePrime = candidatePrime.add(BigInteger.TWO);
 		}
 	}
 	
@@ -137,8 +136,8 @@ public class Primes {
 	}
 
 	public boolean isPrime(BigInteger x){
-		for (int i = 2; i <= x.sqrt().intValue(); ++i)
-			if (x.remainder(BigInteger.valueOf(i)).compareTo(new BigInteger("0")) == 0)
+		for (BigInteger i = BigInteger.valueOf(2); i.compareTo(x.sqrt()) != 1; i = i.add(BigInteger.ONE))
+			if (x.remainder(i).compareTo(BigInteger.ZERO) == 0)
 				return false;
 		return true;
 	}
