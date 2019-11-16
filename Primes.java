@@ -12,8 +12,8 @@ public class Primes {
 
 	// Pair class implementation. Holds two values and nothing more.
 	private class Pair<T> {
-		T first;
-		T second;
+		private T first;
+		private T second;
 
 		public Pair(T firstElement, T secondElement) {
 			first = firstElement;

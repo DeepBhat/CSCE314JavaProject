@@ -2,17 +2,17 @@ public class Project1 {
 	public static void main(String[] args) 
 	{
 		// Instantiate Primes Class
-		Primes p = new Primes();
+		Primes testOne = new Primes();
 		
 		// Generate Primes and test.
-		p.generatePrimes(21);
-		p.printPrimes();
+		testOne.generatePrimes(21);
+		testOne.printPrimes();
 		
 		// Generate and test Twin Primes
-		Primes testtwo = new Primes();
-		testtwo.generatePrimes(100);
-		testtwo.generateTwinPrimes();
-		testtwo.printTwins();
+		Primes testTwo = new Primes();
+		testTwo.generatePrimes(100);
+		testTwo.generateTwinPrimes();
+		testTwo.printTwins();
 		
 		// Generate and test Hexagonal crosses
 		Primes testThree = new Primes();
