@@ -10,44 +10,6 @@ public class Primes {
 	ArrayList<Pair<BigInteger>> twinList = new ArrayList<Pair<BigInteger>>();
 	ArrayList<Pair<Pair<BigInteger>>> hexList = new ArrayList<Pair<Pair<BigInteger>>>();
 
-	// Pair class implementation. Holds two values and nothing more.
-	private class Pair<T> {
-		private T first;
-		private T second;
-
-		public Pair(T firstElement, T secondElement) {
-			first = firstElement;
-			second = secondElement;
-		}
-
-		public T getFirst() {
-			return first;
-		}
-
-		public T getSecond() {
-			return second;
-		}
-
-		public void setFirst(T value) {
-			first = value;
-		}
-
-		public void setSecond(T value) {
-			second = value;
-		}
-
-		public void newValues(ArrayList<T> values) {
-			if (values.size() != 2)
-				System.err.println("Error: Please provide an array of size 2");
-			first = values.get(0);
-			second = values.get(1);
-		}
-
-		public String toString() {
-			return (first + ", " + second);
-		}
-
-	}
 
 	// Member variables for containing out lists of integers, twin primes, hexagon
 	// crosses, and the pairs of twin primes that make up the hex crosses.
@@ -65,11 +27,33 @@ public class Primes {
 		primeList.add(x);
 	}
 
+	//Add a pair to the pair list
+	public void addPair(Pair<BigInteger> pair) {
+		twinList.add(pair);
+	}
+
+	// Adds a pair of BigIntegers that represent a Hexagonal Cross.
+	public void addCross(Pair<Pair<BigInteger>> pair) {
+		hexList.add(pair);
+	} 
+
+	public void clearPrimes() {
+		primeList.clear();
+	}
+
+	public void clearTwins() {
+		twinList.clear();
+	}
+
+	public void clearCrosses() {
+		hexList.clear();
+	}
+
 	// Output the prime list. Each prime should be on a separate line and the total
 	// number of primes should be on the following line.
 	public void printPrimes() {
-		for (int i = 0; i < primeList.size(); ++i) {
-			System.out.println(primeList.get(i));
+		for (BigInteger prime : primeList) {
+			System.out.println(prime);
 		}
 		System.out.println("Total primes: " + primeList.size());
 	}
@@ -78,8 +62,8 @@ public class Primes {
 	// a comma separating them, and the total number of twin primes should be on the
 	// following line.
 	public void printTwins() {
-		for (int i = 0; i < twinList.size(); ++i) {
-			System.out.println(twinList.get(i));
+		for (Pair<BigInteger> primePair : twinList) {
+			System.out.println(primePair);
 		}
 		System.out.println("Total twins: " + twinList.size());
 	}
@@ -88,10 +72,10 @@ public class Primes {
 	// two twin primes and the corresponding hexagon cross, with the total number on
 	// the following line.
 	public void printHexes() {
-		for (int i = 0; i < hexList.size(); ++i) {
-			System.out.println("Primes Pair: " + hexList.get(i).getFirst() + " and " + hexList.get(i).getSecond()
-					+ " separated by " + hexList.get(i).getFirst().getFirst().add(BigInteger.ONE) + ", "
-					+ hexList.get(i).getSecond().getFirst().add(BigInteger.ONE));
+		for (Pair<Pair<BigInteger>> hexPair : hexList) {
+			System.out.println("Primes Pair: " + hexPair.getFirst() + " and " + hexPair.getSecond()
+					+ " separated by " + hexPair.getFirst().getFirst().add(BigInteger.ONE) + ", "
+					+ hexPair.getSecond().getFirst().add(BigInteger.ONE));
 		}
 		System.out.println("Total Hexes: " + hexList.size());
 	}
@@ -160,4 +144,38 @@ public class Primes {
 		}
 		return true;
 	}
+
+	// Count the number of digits in the last (and thus largest) prime.
+	public int sizeofLastPrime() {
+		return primeList.get(primeList.size() - 1).toString().length();
+	}
+	
+	// Count the number of digits in the two entries in the last (and thus largest) hexagon cross
+	public Pair<Integer> sizeofLastCross() {
+		Integer first = hexList.get(hexList.size() - 1).getFirst().getFirst().add(BigInteger.ONE).toString().length();
+		Integer second = hexList.get(hexList.size() - 1).getSecond().getFirst().add(BigInteger.ONE).toString().length();
+		return new Pair<Integer>(first, second);
+	}
+	
+	// Return the number of primes
+	public int primeCount() {
+		return primeList.size();
+	}
+	
+	// Return the number of crosses.
+	public int crossesCount() {
+		return hexList.size();
+	}
+	
+	public class IterablePrimes implements Iterable<BigInteger>{		
+		//TODO: implement this method
+	}
+	
+	public IterablePrimes iteratePrimes() { return new IterablePrimes();}
+
+	public class IterableCrosses implements Iterable<BigInteger>{	
+		//TODO: Implement	
+	}
+	
+	public IterableCrosses iterateCrosses() { return new IterablePrimes();}
 }
