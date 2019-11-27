@@ -95,6 +95,18 @@ public class Primes {
 		}
 	}
 
+	// Generate primes from a given starting point
+	public void generatePrimes(BigInteger start, int count) {
+		BigInteger candidatePrime = start;
+		while (count > 1) {
+			if (isPrime(candidatePrime)) {
+				addPrime(candidatePrime);
+				count--;
+			}
+			candidatePrime = candidatePrime.add(BigInteger.TWO);
+		}
+	}
+
 	// Generate and store a list of twin primes.
 	public void generateTwinPrimes() {
 		for (int i = 0; i < primeList.size() - 1; ++i) {
