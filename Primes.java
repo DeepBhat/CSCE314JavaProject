@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.math.BigInteger;
 
 /*
@@ -168,14 +169,57 @@ public class Primes {
 	}
 	
 	public class IterablePrimes implements Iterable<BigInteger>{		
-		//TODO: implement this method
+		@Override
+		public Iterator<BigInteger> iterator() {
+			return new PrimesIterator();
+		}
+	}
+
+	public class PrimesIterator implements Iterator<BigInteger> {
+		int currentIndex = 0;
+
+		@Override
+		public boolean hasNext() {
+			return currentIndex < primeList.size();
+		}
+
+		@Override
+		public BigInteger next() {
+			BigInteger element = primeList.get(currentIndex);
+			currentIndex ++;
+			return element;
+		}
+
 	}
 	
 	public IterablePrimes iteratePrimes() { return new IterablePrimes();}
 
-	public class IterableCrosses implements Iterable<BigInteger>{	
-		//TODO: Implement	
+	public class IterableCrosses implements Iterable<Pair<BigInteger>>{
+
+		@Override
+		public Iterator<Pair<BigInteger>> iterator() {
+			return new CrossIterator();
+		}	
+	}
+
+	public class CrossIterator implements Iterator<Pair<BigInteger>> {
+		int currentIndex = 0;
+
+		@Override
+		public boolean hasNext() {
+			return currentIndex < hexList.size();
+		}
+
+		@Override
+		public Pair<BigInteger> next() {
+			BigInteger firstMiddle = hexList.get(currentIndex).getFirst().getFirst().add(BigInteger.ONE);
+			BigInteger secondMiddle = hexList.get(currentIndex).getSecond().getFirst().add(BigInteger.ONE);
+			currentIndex++;
+			return new Pair<BigInteger>(firstMiddle, secondMiddle);
+		}
+
 	}
 	
-	public IterableCrosses iterateCrosses() { return new IterablePrimes();}
+	public IterableCrosses iterateCrosses() { return new IterableCrosses();}
 }
+

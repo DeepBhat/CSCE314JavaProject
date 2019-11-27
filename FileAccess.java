@@ -46,6 +46,7 @@ public class FileAccess {
   	return true;
   }
   
+
   public static boolean saveCrosses(Primes primes, String filename) throws IOException {
     File file = new File(Config.DATAPATH + filename);
     FileWriter writer = new FileWriter(file);
