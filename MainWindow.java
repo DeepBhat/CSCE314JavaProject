@@ -5,6 +5,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigInteger;
 import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
@@ -43,7 +45,7 @@ public class MainWindow extends JFrame
 		*/
 
 
-		JFrame mainWindow = new JFrame(Config.APPLICATIONNAME);
+		JFrame mainWindow = new JFrame(name);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		// Reposition left corner to (200, 200) and resize to 1000 x 400
@@ -73,18 +75,8 @@ public class MainWindow extends JFrame
 		primesPanel.setLayout(new GridBagLayout());
 
 		//Adding the text field
-		tfPrimeFileName = new JTextField("primes.txt");
-		tfPrimeFileName.setColumns(50);
-		/*
-		tfPrimeFileName.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String newFileName = tfPrimeFileName.getText();
-				if(newFileName.contains(".txt")) {
-					Config.prime
-				}
-			}
-		});
-		*/
+		tfPrimeFileName = new JTextField(Config.PRIMEFILENAME);
+		tfPrimeFileName.setColumns(50);	
 		gbcPrimePanel.anchor = GridBagConstraints.NORTHWEST;
 		gbcPrimePanel.fill = GridBagConstraints.HORIZONTAL;
 		gbcPrimePanel.weightx = .5;
@@ -114,6 +106,17 @@ public class MainWindow extends JFrame
 
 		//Adding the Load Button
 		JButton loadPrimeButton = new JButton("Load");
+		loadPrimeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileAccess.loadPrimes(p, tfPrimeFileName.getText());
+				}
+				catch (FileNotFoundException ex) {
+					lblStatus.setText("Millions of years of evolution and we have a human here who cannot enter a file name that exists.");
+					mainWindow.dispose();
+				}
+			}
+		});
 		gbcPrimePanel.gridx = 1;
 		gbcPrimePanel.fill = GridBagConstraints.NONE;
 		gbcPrimePanel.anchor = GridBagConstraints.EAST;
@@ -121,6 +124,19 @@ public class MainWindow extends JFrame
 
 		//Adding the Save Button
 		JButton savePrimeButton = new JButton("Save");
+		savePrimeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileAccess.savePrimes(p, tfPrimeFileName.getText());
+				}
+				catch (IOException ex) {
+					lblStatus.setText("Something went wrong, probably from your end.");
+					System.out.println(ex.getMessage());
+					System.out.println(ex.getStackTrace());
+					mainWindow.dispose();
+				}
+			}
+		});
 		gbcPrimePanel.gridx = 2;
 		primesPanel.add(savePrimeButton, gbcPrimePanel);
 
@@ -140,7 +156,7 @@ public class MainWindow extends JFrame
 		crossPanel.setLayout(new GridBagLayout());
 
 		//Adding the text field
-		tfCrossFileName = new JTextField("crosses.txt");
+		tfCrossFileName = new JTextField(Config.CROSSFILENAME);
 		tfCrossFileName.setColumns(50);
 		gbcCrossPanel.anchor = GridBagConstraints.NORTHWEST;
 		gbcCrossPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -171,6 +187,17 @@ public class MainWindow extends JFrame
 
 		//Adding the Load Button
 		JButton loadCrossButton = new JButton("Load");
+		loadCrossButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileAccess.loadCrosses(p, tfCrossFileName.getText());
+				}
+				catch (FileNotFoundException ex) {
+					lblStatus.setText("Dawg that file dont exist, go commit sudoku.");
+					mainWindow.dispose();
+				}
+			}
+		});
 		gbcCrossPanel.gridx = 1;
 		gbcCrossPanel.fill = GridBagConstraints.NONE;
 		gbcCrossPanel.anchor = GridBagConstraints.EAST;
@@ -178,6 +205,19 @@ public class MainWindow extends JFrame
 
 		//Adding the Save Button
 		JButton saveCrossButton = new JButton("Save");
+		saveCrossButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileAccess.saveCrosses(p, tfCrossFileName.getText());
+				}
+				catch (IOException ex) {
+					lblStatus.setText("Something went wrong, probably from your end.");
+					System.out.println(ex.getMessage());
+					System.out.println(ex.getStackTrace());
+					mainWindow.dispose();
+				}
+			}
+		});
 		gbcCrossPanel.gridx = 2;
 		crossPanel.add(saveCrossButton, gbcCrossPanel);
 
@@ -235,10 +275,10 @@ public class MainWindow extends JFrame
 		statusPanel.setLayout(new GridBagLayout());
 
 		// Adding the Status Label
-		JLabel statusLabel = new JLabel("Status: Bored");
-		statusLabel.setHorizontalAlignment(JLabel.LEFT);
-		statusLabel.setFont(new Font("Tahome", Font.PLAIN, 12));
-		statusPanel.add(statusLabel, gcbStatusPanel);
+		lblStatus = new JLabel("Status: Bored");
+		lblStatus.setHorizontalAlignment(JLabel.LEFT);
+		lblStatus.setFont(new Font("Tahome", Font.PLAIN, 12));
+		statusPanel.add(lblStatus, gcbStatusPanel);
 
 		gbcMainWindow.gridy = 3;
 		mainWindow.add(statusPanel, gbcMainWindow);
