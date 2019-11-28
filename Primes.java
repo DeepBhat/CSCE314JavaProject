@@ -103,7 +103,7 @@ public class Primes {
 				addPrime(candidatePrime);
 				count--;
 			}
-			candidatePrime = candidatePrime.add(BigInteger.TWO);
+			candidatePrime = candidatePrime.add(BigInteger.ONE);
 		}
 	}
 
@@ -187,7 +187,7 @@ public class Primes {
 		}
 	}
 
-	public class PrimesIterator implements Iterator<BigInteger> {
+	private class PrimesIterator implements Iterator<BigInteger> {
 		int currentIndex = 0;
 
 		@Override
@@ -214,7 +214,7 @@ public class Primes {
 		}	
 	}
 
-	public class CrossIterator implements Iterator<Pair<BigInteger>> {
+	private class CrossIterator implements Iterator<Pair<BigInteger>> {
 		int currentIndex = 0;
 
 		@Override

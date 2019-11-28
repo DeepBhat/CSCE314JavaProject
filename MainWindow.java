@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -29,6 +32,222 @@ public class MainWindow extends JFrame
 	
 	MainWindow(String name, Primes p)
 	{
+		/* Requirements
+		* 1000 x 400 pixels mainWindow
+		* Background Color = Texas A&M Maroon
+		* Four divisions:
+		* 1. Primes File textbox with Load and Save buttons
+		* 2. Hexagon Cross File textbox with Load and Save buttons
+		* 3. Generate Primes and Generate Crosses with different popouts
+		* 4. Status bar with the status of the app
+		*/
+
+
+		JFrame mainWindow = new JFrame(Config.APPLICATIONNAME);
+		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		
+		// Reposition left corner to (200, 200) and resize to 1000 x 400
+		mainWindow.setBounds(200, 200, 1000, 400);
+
+		// Recolor to Texas A&M Maroon (80, 0, 0)
+		mainWindow.getContentPane().setBackground(new Color(80, 0, 0));
+
+		// =============== Main Window Layout ========================
+		mainWindow.setLayout(new GridBagLayout());
+		
+
+		// ============== Primes Panel ========================
+
+		// Adding the primes panel component
+		JPanel primesPanel = new JPanel();
+		GridBagConstraints gbcMainWindow = new GridBagConstraints();
+		gbcMainWindow.fill = GridBagConstraints.HORIZONTAL;
+		gbcMainWindow.anchor = GridBagConstraints.WEST;
+		gbcMainWindow.ipady = 10;
+		gbcMainWindow.weightx = .5;
+		gbcMainWindow.gridx = 0;
+		gbcMainWindow.gridy = 0;
+		gbcMainWindow.insets = new Insets(1,2,0,0);
+
+		GridBagConstraints gbcPrimePanel = new GridBagConstraints();
+		primesPanel.setLayout(new GridBagLayout());
+
+		//Adding the text field
+		tfPrimeFileName = new JTextField("primes.txt");
+		tfPrimeFileName.setColumns(50);
+		/*
+		tfPrimeFileName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String newFileName = tfPrimeFileName.getText();
+				if(newFileName.contains(".txt")) {
+					Config.prime
+				}
+			}
+		});
+		*/
+		gbcPrimePanel.anchor = GridBagConstraints.NORTHWEST;
+		gbcPrimePanel.fill = GridBagConstraints.HORIZONTAL;
+		gbcPrimePanel.weightx = .5;
+		gbcPrimePanel.insets = new Insets(1,2,0,0);
+		gbcPrimePanel.gridx = 0;
+		gbcPrimePanel.gridy = 0;
+		gbcPrimePanel.gridwidth = 2;
+		primesPanel.add(tfPrimeFileName, gbcPrimePanel);
+
+		//Adding the primes count
+		lblPrimeCount = new JLabel("0");
+		gbcPrimePanel.gridx = 2;
+		lblPrimeCount.setLabelFor(tfPrimeFileName);
+		gbcPrimePanel.fill = GridBagConstraints.NONE;
+		gbcPrimePanel.anchor = GridBagConstraints.CENTER;
+		gbcPrimePanel.gridwidth = 1;
+		primesPanel.add(lblPrimeCount, gbcPrimePanel);
+
+		//Adding the primes file text
+		JLabel primesFile = new JLabel("Primes File");
+		primesFile.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		gbcPrimePanel.gridy = 1;
+		gbcPrimePanel.gridx = 0;
+		gbcPrimePanel.fill = GridBagConstraints.HORIZONTAL;
+		gbcPrimePanel.anchor = GridBagConstraints.SOUTHWEST;
+		primesPanel.add(primesFile, gbcPrimePanel);
+
+		//Adding the Load Button
+		JButton loadPrimeButton = new JButton("Load");
+		gbcPrimePanel.gridx = 1;
+		gbcPrimePanel.fill = GridBagConstraints.NONE;
+		gbcPrimePanel.anchor = GridBagConstraints.EAST;
+		primesPanel.add(loadPrimeButton, gbcPrimePanel);
+
+		//Adding the Save Button
+		JButton savePrimeButton = new JButton("Save");
+		gbcPrimePanel.gridx = 2;
+		primesPanel.add(savePrimeButton, gbcPrimePanel);
+
+
+		mainWindow.add(primesPanel, gbcMainWindow);
+
+		//====================================================
+
+
+
+		//================ Hexagon Cross Panel ===============
+
+		// Adding the hexagon cross panel component
+		JPanel crossPanel = new JPanel();
+
+		GridBagConstraints gbcCrossPanel = new GridBagConstraints();
+		crossPanel.setLayout(new GridBagLayout());
+
+		//Adding the text field
+		tfCrossFileName = new JTextField("crosses.txt");
+		tfCrossFileName.setColumns(50);
+		gbcCrossPanel.anchor = GridBagConstraints.NORTHWEST;
+		gbcCrossPanel.fill = GridBagConstraints.HORIZONTAL;
+		gbcCrossPanel.weightx = .5;
+		gbcCrossPanel.insets = new Insets(1,2,0,0);
+		gbcCrossPanel.gridx = 0;
+		gbcCrossPanel.gridy = 0;
+		gbcCrossPanel.gridwidth = 2;
+		crossPanel.add(tfCrossFileName, gbcCrossPanel);
+
+		//Adding the cross count
+		lblCrossCount = new JLabel("0");
+		gbcCrossPanel.gridx = 2;
+		lblCrossCount.setLabelFor(tfCrossFileName);
+		gbcCrossPanel.fill = GridBagConstraints.NONE;
+		gbcCrossPanel.anchor = GridBagConstraints.CENTER;
+		gbcCrossPanel.gridwidth = 1;
+		crossPanel.add(lblCrossCount, gbcCrossPanel);
+
+		//Adding the cross file text
+		JLabel crossFile = new JLabel("Hexagon Cross File");
+		crossFile.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		gbcCrossPanel.gridy = 1;
+		gbcCrossPanel.gridx = 0;
+		gbcCrossPanel.fill = GridBagConstraints.HORIZONTAL;
+		gbcCrossPanel.anchor = GridBagConstraints.SOUTHWEST;
+		crossPanel.add(crossFile, gbcCrossPanel);
+
+		//Adding the Load Button
+		JButton loadCrossButton = new JButton("Load");
+		gbcCrossPanel.gridx = 1;
+		gbcCrossPanel.fill = GridBagConstraints.NONE;
+		gbcCrossPanel.anchor = GridBagConstraints.EAST;
+		crossPanel.add(loadCrossButton, gbcCrossPanel);
+
+		//Adding the Save Button
+		JButton saveCrossButton = new JButton("Save");
+		gbcCrossPanel.gridx = 2;
+		crossPanel.add(saveCrossButton, gbcCrossPanel);
+
+		gbcMainWindow.gridy = 1;
+		mainWindow.add(crossPanel, gbcMainWindow);
+		//==============================================
+
+
+		// =================== Button Panel ================
+		JPanel buttonsPanel = new JPanel();
+
+		GridBagConstraints gbcButtonPanel = new GridBagConstraints();
+		buttonsPanel.setLayout(new GridBagLayout());
+
+		// Add Generate Primes Button
+		JButton generatePrimesButton = new JButton("Generate Primes");
+		gbcButtonPanel.anchor = GridBagConstraints.CENTER;
+		gbcButtonPanel.fill = GridBagConstraints.NONE;
+		gbcButtonPanel.weightx = .5;
+		gbcButtonPanel.insets = new Insets(1,2,0,0);
+		gbcButtonPanel.gridx = 0;
+		gbcButtonPanel.gridy = 0;
+		gbcButtonPanel.gridheight = 2;
+		buttonsPanel.add(generatePrimesButton, gbcButtonPanel);
+
+		// Add the two labels
+		lblLargestPrime = new JLabel("The largest prime has 0 digits.");
+		lblLargestPrime.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		gbcButtonPanel.gridheight = 1;
+		gbcButtonPanel.gridx = 1;
+		buttonsPanel.add(lblLargestPrime, gbcButtonPanel);
+
+		lblLargestCross = new JLabel("The largest cross has 0 and 0 digits.");
+		lblLargestCross.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		gbcButtonPanel.gridy = 1;
+		buttonsPanel.add(lblLargestCross, gbcButtonPanel);
+
+		// Add Generate Cross Button
+		JButton generateCrossesButton = new JButton("Generate Crosses");
+		gbcButtonPanel.gridx = 2;
+		gbcButtonPanel.gridy = 0;
+		gbcButtonPanel.gridheight = 2;
+		buttonsPanel.add(generateCrossesButton, gbcButtonPanel); 
+
+		gbcMainWindow.gridy = 2;
+		mainWindow.add(buttonsPanel, gbcMainWindow);
+		// =============================================================
+
+
+
+		// ================= Status Bar Panel ===============
+		JPanel statusPanel = new JPanel();
+
+		GridBagConstraints gcbStatusPanel = new GridBagConstraints();
+		statusPanel.setLayout(new GridBagLayout());
+
+		// Adding the Status Label
+		JLabel statusLabel = new JLabel("Status: Bored");
+		statusLabel.setHorizontalAlignment(JLabel.LEFT);
+		statusLabel.setFont(new Font("Tahome", Font.PLAIN, 12));
+		statusPanel.add(statusLabel, gcbStatusPanel);
+
+		gbcMainWindow.gridy = 3;
+		mainWindow.add(statusPanel, gbcMainWindow);
+		// =============================================================
+
+
+		//mainWindow.setMinimumSize(new Dimension(1000,400));
+		mainWindow.pack();
+		mainWindow.setVisible(true);
 	}
 
 	protected void popupGeneratePrimes()
