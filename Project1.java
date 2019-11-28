@@ -5,6 +5,6 @@ public class Project1 {
 	{
 		Primes primes = new Primes();
 		MainWindow mw = new MainWindow(Config.APPLICATIONNAME, primes);
-		
+		primes.printHexes();
 	}
 }

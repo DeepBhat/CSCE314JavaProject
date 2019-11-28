@@ -160,14 +160,25 @@ public class Primes {
 
 	// Count the number of digits in the last (and thus largest) prime.
 	public int sizeofLastPrime() {
-		return primeList.get(primeList.size() - 1).toString().length();
+		if (primeList.size() > 0) {
+			return primeList.get(primeList.size() - 1).toString().length();
+		}
+		else {
+			return 0;
+		}
+
 	}
 	
 	// Count the number of digits in the two entries in the last (and thus largest) hexagon cross
 	public Pair<Integer> sizeofLastCross() {
-		Integer first = hexList.get(hexList.size() - 1).getFirst().getFirst().add(BigInteger.ONE).toString().length();
-		Integer second = hexList.get(hexList.size() - 1).getSecond().getFirst().add(BigInteger.ONE).toString().length();
-		return new Pair<Integer>(first, second);
+		if (hexList.size() > 0) {
+			Integer first = hexList.get(hexList.size() - 1).getFirst().getFirst().add(BigInteger.ONE).toString().length();
+			Integer second = hexList.get(hexList.size() - 1).getSecond().getFirst().add(BigInteger.ONE).toString().length();
+			return new Pair<Integer>(first, second);
+		}
+		else {
+			return new Pair<Integer>(0, 0);
+		}
 	}
 	
 	// Return the number of primes

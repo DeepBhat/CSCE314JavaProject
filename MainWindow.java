@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,11 +28,11 @@ public class MainWindow extends JFrame
 	private Primes m_Primes;
 	private JTextField tfPrimeFileName;
 	private JTextField tfCrossFileName;
-	private JLabel lblPrimeCount;
-	private JLabel lblCrossCount;
-	private JLabel lblLargestPrime;
-	private JLabel lblLargestCross;
-	private JLabel lblStatus;
+	private JLabel lblPrimeCount = new JLabel("");
+	private JLabel lblCrossCount = new JLabel("");
+	private JLabel lblLargestPrime = new JLabel("");
+	private JLabel lblLargestCross = new JLabel("");
+	private JLabel lblStatus = new JLabel("");
 	
 	MainWindow(String name, Primes p)
 	{
@@ -43,10 +45,11 @@ public class MainWindow extends JFrame
 		* 3. Generate Primes and Generate Crosses with different popouts
 		* 4. Status bar with the status of the app
 		*/
-
+		m_Primes = p;
 
 		JFrame mainWindow = new JFrame(name);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		
 		
 		// Reposition left corner to (200, 200) and resize to 1000 x 400
 		mainWindow.setBounds(200, 200, 1000, 400);
@@ -109,7 +112,9 @@ public class MainWindow extends JFrame
 		loadPrimeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileAccess.loadPrimes(p, tfPrimeFileName.getText());
+					FileAccess.loadPrimes(m_Primes, tfPrimeFileName.getText());
+					updateStats();
+					lblStatus.setText("Status: Prime list loaded successfully.");
 				}
 				catch (FileNotFoundException ex) {
 					lblStatus.setText("Millions of years of evolution and we have a human here who cannot enter a file name that exists.");
@@ -127,7 +132,9 @@ public class MainWindow extends JFrame
 		savePrimeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileAccess.savePrimes(p, tfPrimeFileName.getText());
+					FileAccess.savePrimes(m_Primes, tfPrimeFileName.getText());
+					updateStats();
+					lblStatus.setText("Prime list saved successfully.");
 				}
 				catch (IOException ex) {
 					lblStatus.setText("Something went wrong, probably from your end.");
@@ -190,7 +197,9 @@ public class MainWindow extends JFrame
 		loadCrossButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileAccess.loadCrosses(p, tfCrossFileName.getText());
+					FileAccess.loadCrosses(m_Primes, tfCrossFileName.getText());
+					updateStats();
+					lblStatus.setText("Cross list loaded successfully.");
 				}
 				catch (FileNotFoundException ex) {
 					lblStatus.setText("Dawg that file dont exist, go commit sudoku.");
@@ -208,7 +217,9 @@ public class MainWindow extends JFrame
 		saveCrossButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					FileAccess.saveCrosses(p, tfCrossFileName.getText());
+					FileAccess.saveCrosses(m_Primes, tfCrossFileName.getText());
+					updateStats();
+					lblStatus.setText("Status: Cross list saved successfully.");
 				}
 				catch (IOException ex) {
 					lblStatus.setText("Something went wrong, probably from your end.");
@@ -234,6 +245,15 @@ public class MainWindow extends JFrame
 
 		// Add Generate Primes Button
 		JButton generatePrimesButton = new JButton("Generate Primes");
+		generatePrimesButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainWindow.setVisible(false);
+				popupGeneratePrimes();
+				updateStats();
+				mainWindow.setVisible(true);
+				lblStatus.setText("Generated primes successfuly.");
+			}
+		});
 		gbcButtonPanel.anchor = GridBagConstraints.CENTER;
 		gbcButtonPanel.fill = GridBagConstraints.NONE;
 		gbcButtonPanel.weightx = .5;
@@ -257,6 +277,13 @@ public class MainWindow extends JFrame
 
 		// Add Generate Cross Button
 		JButton generateCrossesButton = new JButton("Generate Crosses");
+		generateCrossesButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				m_Primes.generateHexPrimes();
+				updateStats();
+				lblStatus.setText("Generate cross primes successfully.");
+			}
+		});
 		gbcButtonPanel.gridx = 2;
 		gbcButtonPanel.gridy = 0;
 		gbcButtonPanel.gridheight = 2;
@@ -288,6 +315,7 @@ public class MainWindow extends JFrame
 		//mainWindow.setMinimumSize(new Dimension(1000,400));
 		mainWindow.pack();
 		mainWindow.setVisible(true);
+		p = m_Primes;
 	}
 
 	protected void popupGeneratePrimes()
@@ -401,9 +429,16 @@ public class MainWindow extends JFrame
 		dPrimes.setVisible(true);		
 	}
 
+	
+
 	// This function updates all the GUI statistics. (# of primes, # of crosses, etc)
-	private void updateStats()
-	{
- 	}
+	private void updateStats() {
+		lblPrimeCount.setText(String.valueOf(m_Primes.primeCount()));
+		lblCrossCount.setText(String.valueOf(m_Primes.crossesCount()));
+		lblLargestPrime.setText("The largest prime has " + m_Primes.sizeofLastPrime() + " digits.");
+		lblLargestCross.setText("The largest cross has " + m_Primes.sizeofLastCross().getFirst() + " and " + m_Primes.sizeofLastCross().getSecond() + " digits.");
+	}
+	 
+	
 
 }

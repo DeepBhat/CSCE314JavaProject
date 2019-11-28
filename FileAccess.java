@@ -13,7 +13,7 @@ public class FileAccess {
     File file = new File(Config.DATAPATH + filename); 
     Scanner scanner = new Scanner(file); 
     while (scanner.hasNextLine()) {
-      primes.addPrime(scanner.nextBigInteger());
+      primes.addPrime(new BigInteger(scanner.nextLine().strip()));
     }
     scanner.close();
 		return true;
@@ -36,6 +36,9 @@ public class FileAccess {
   
   public static boolean savePrimes(Primes primes, String filename) throws IOException {
     File file = new File(Config.DATAPATH + filename);
+    if(!file.exists()) {
+      file.createNewFile();
+    }
     FileWriter writer = new FileWriter(file);
 
     for (BigInteger prime : primes.iteratePrimes()) {
