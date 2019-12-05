@@ -52,10 +52,13 @@ public class FileAccess {
 
   public static boolean saveCrosses(Primes primes, String filename) throws IOException {
     File file = new File(Config.DATAPATH + filename);
+    if(!file.exists()) {
+      file.createNewFile();
+    }
     FileWriter writer = new FileWriter(file);
     
     for (Pair<BigInteger> middlePair : primes.iterateCrosses()) {
-      String writeLine = middlePair.toString() + "/n";
+      String writeLine = middlePair.toString() + "\n";
       writer.write(writeLine);
     }
     writer.close();

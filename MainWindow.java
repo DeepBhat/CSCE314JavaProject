@@ -59,12 +59,6 @@ public class MainWindow extends JFrame
 
 		// =============== Main Window Layout ========================
 		mainWindow.setLayout(new GridBagLayout());
-		
-
-		// ============== Primes Panel ========================
-
-		// Adding the primes panel component
-		JPanel primesPanel = new JPanel();
 		GridBagConstraints gbcMainWindow = new GridBagConstraints();
 		gbcMainWindow.fill = GridBagConstraints.HORIZONTAL;
 		gbcMainWindow.anchor = GridBagConstraints.WEST;
@@ -73,6 +67,12 @@ public class MainWindow extends JFrame
 		gbcMainWindow.gridx = 0;
 		gbcMainWindow.gridy = 0;
 		gbcMainWindow.insets = new Insets(1,2,0,0);
+
+		// ============== Primes Panel ========================
+
+		// Adding the primes panel component
+		JPanel primesPanel = new JPanel();
+
 
 		GridBagConstraints gbcPrimePanel = new GridBagConstraints();
 		primesPanel.setLayout(new GridBagLayout());
@@ -279,6 +279,7 @@ public class MainWindow extends JFrame
 		JButton generateCrossesButton = new JButton("Generate Crosses");
 		generateCrossesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				m_Primes.generateTwinPrimes();
 				m_Primes.generateHexPrimes();
 				updateStats();
 				lblStatus.setText("Generate cross primes successfully.");
@@ -303,8 +304,11 @@ public class MainWindow extends JFrame
 
 		// Adding the Status Label
 		lblStatus = new JLabel("Status: Bored");
-		lblStatus.setHorizontalAlignment(JLabel.LEFT);
 		lblStatus.setFont(new Font("Tahome", Font.PLAIN, 12));
+		gcbStatusPanel.anchor = GridBagConstraints.WEST;
+		gcbStatusPanel.gridx = 0;
+		gcbStatusPanel.gridy = 0;
+		gcbStatusPanel.fill = GridBagConstraints.NONE;
 		statusPanel.add(lblStatus, gcbStatusPanel);
 
 		gbcMainWindow.gridy = 3;
@@ -312,7 +316,7 @@ public class MainWindow extends JFrame
 		// =============================================================
 
 
-		//mainWindow.setMinimumSize(new Dimension(1000,400));
+		mainWindow.setSize(1000,400);
 		mainWindow.pack();
 		mainWindow.setVisible(true);
 		p = m_Primes;

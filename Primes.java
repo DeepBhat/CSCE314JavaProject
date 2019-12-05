@@ -86,7 +86,7 @@ public class Primes {
 		addPrime(new BigInteger("2"));
 		BigInteger candidatePrime = new BigInteger("3");
 
-		while (count > 1) {
+		while (count >= 1) {
 			if (isPrime(candidatePrime)) {
 				addPrime(candidatePrime);
 				count--;
@@ -96,9 +96,9 @@ public class Primes {
 	}
 
 	// Generate primes from a given starting point
-	public void generatePrimes(BigInteger start, int count) {
+	public void generatePrimes(BigInteger start, int count)	 {
 		BigInteger candidatePrime = start;
-		while (count > 1) {
+		while (count >= 1) {
 			if (isPrime(candidatePrime)) {
 				addPrime(candidatePrime);
 				count--;
@@ -146,7 +146,6 @@ public class Primes {
 							// need to stop checking
 			}
 		}
-
 	}
 
 	public boolean isPrime(BigInteger x) {
@@ -203,7 +202,7 @@ public class Primes {
 
 		@Override
 		public boolean hasNext() {
-			return currentIndex < primeList.size();
+			return currentIndex <  primeList.size();
 		}
 
 		@Override
